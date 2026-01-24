@@ -8,8 +8,8 @@ interface CandidatesProps {
 
 export const Candidates = (props: CandidatesProps) => {
     return (
-        <Layout title="Candidates">
-            <h2 class="text-2xl font-bold mb-6">Your Candidates</h2>
+        <Layout title="気になるリスト">
+            <h2 class="text-2xl font-bold mb-6">気になるリスト</h2>
 
             <div class="candidate-list">
                 {props.candidates.map((candidate) => (

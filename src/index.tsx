@@ -10,7 +10,10 @@ import { Candidates } from "./views/candidates";
 const app = new Hono();
 
 // Static files
-app.use("/static/*", serveStatic({ root: "./src/public" }));
+app.use("/static/*", serveStatic({
+    root: "./src/public",
+    rewriteRequestPath: (path) => path.replace(/^\/static/, "")
+}));
 
 // Routes
 

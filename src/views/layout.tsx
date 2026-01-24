@@ -1,18 +1,18 @@
 import { html } from "hono/html";
 
 interface LayoutProps {
-    title: string;
-    children: any;
+  title: string;
+  children: any;
 }
 
 export const Layout = (props: LayoutProps) => {
-    return html`
+  return html`
     <!DOCTYPE html>
     <html lang="ja">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>${props.title} - Movie Reserve</title>
+        <title>${props.title} - 映画予約システム</title>
         <script src="https://cdn.tailwindcss.com"></script> <!-- Optional for layout helpers -->
         <link rel="stylesheet" href="/static/styles.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,8 +23,8 @@ export const Layout = (props: LayoutProps) => {
         <header>
           <h1>Movie Reserve</h1>
           <nav>
-            <a href="/">Schedules</a>
-            <a href="/candidates">Candidates</a>
+            <a href="/">スケジュール</a>
+            <a href="/candidates">気になるリスト</a>
           </nav>
         </header>
         <main>
