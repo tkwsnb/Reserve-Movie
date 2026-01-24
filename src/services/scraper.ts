@@ -32,47 +32,36 @@ export class ScraperService {
             // For this implementation, we will assume a generic "Movie Walker" style or similar
             // or implement a mock parser if the URL is a test URL.
 
-            /* 
-             * TODO: Implement specific parsing logic based on the target site.
-             * For now, I'll demonstrate how to parse a list of movies and times
-             * assuming a hypothetical standard structure.
-             * 
-             * Example structure:
-             * .movie-block
-             *   .title -> innerText
-             *   .schedule-item
-             *      .time -> innerText (e.g. "10:00")
-             *      a.booking-link -> href
-             */
-
-            // -- DUMMY PARSER for demonstration (replace with real logic) --
-            // In a real scenario, we would switch logic based on theater.url domain
-
+            // -- MOCK PARSER for demonstration --
+            // Generate dummy schedules if scraping "Sample Theater" or as a fallback
             const schedules: Schedule[] = [];
-            const today = new Date().toISOString().split('T')[0];
 
-            // Hypothetical parsing logic (commented out to avoid errors on random URLs)
-            /*
-            const movieBlocks = document.querySelectorAll('.movie-block');
-            for (const block of movieBlocks) {
-              const title = block.querySelector('.title')?.textContent?.trim() || "Unknown";
-              const times = block.querySelectorAll('.schedule-item');
-              
-              for (const timeItem of times) {
-                 const startTimeStr = timeItem.querySelector('.time')?.textContent?.trim() || "";
-                 // Convert "10:00" to ISO string "YYYY-MM-DDTHH:MM:00"
-                 const startTime = `${today}T${startTimeStr}:00`; 
-                 
-                 schedules.push({
-                   theater_id: theater.id!,
-                   movie_title: title,
-                   start_time: startTime,
-                   booking_url: theater.url, // or specific link
-                   duration: 120 // Default or parsed
-                 });
-              }
+            if (theater.name === "Sample Theater") {
+                const today = new Date().toISOString().split('T')[0];
+                schedules.push(
+                    {
+                        theater_id: theater.id!,
+                        movie_title: "Int'l Space Odyssey 2026",
+                        start_time: `${today}T10:00:00`,
+                        duration: 148,
+                        booking_url: "https://example.com/reserve/1"
+                    },
+                    {
+                        theater_id: theater.id!,
+                        movie_title: "Cyberpunk Runner 2099",
+                        start_time: `${today}T13:30:00`,
+                        duration: 112,
+                        booking_url: "https://example.com/reserve/2"
+                    },
+                    {
+                        theater_id: theater.id!,
+                        movie_title: "Quiet Place: Day Zero",
+                        start_time: `${today}T16:00:00`,
+                        duration: 98,
+                        booking_url: "https://example.com/reserve/3"
+                    }
+                );
             }
-            */
 
             console.log(`Parsed ${schedules.length} schedules.`);
 
