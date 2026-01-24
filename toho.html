@@ -1,0 +1,4077 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<!--[if IE 9 ]><html lang="ja" class="ie9"><![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="ja">
+<!--<![endif]-->
+<head>
+<meta charset="Shift_JIS">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Expires"  content="0" />
+<meta http-equiv="Pragma"   content="no-cache" />
+
+<link rel="apple-touch-icon-precomposed" href="https://www.tohotheater.jp/responsive/images/icon/TClogo_main.png" class="changeImgDomain" />
+<link rel="stylesheet" href="/responsive/css/style.css?20251218">
+<link rel="stylesheet" href="/responsive/css/icons.css?20251218">
+<!--[if lte IE 10]><link rel="stylesheet" href="/responsive/css/ie_compat.css"><![endif]-->
+<script src="/responsive/js/jquery.min.js"></script>
+<script src="/responsive/js/jquery.cookie.js"></script>
+<script src="/responsive/js/utils/cookieManager.js?20250909"></script>
+
+<script>
+$(function(){
+    if (typeof CookieManager.isConnectedAppl != "function") {
+        $.ajax({
+            method: 'GET',
+            url: '/responsive/js/utils/cookieManager.js?20250909',
+            dataType: 'script',
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+        })
+        .then(function(){
+        });
+    }
+
+    // applアクセス判定
+    if (typeof CookieManager.isConnectedAppl == "function" && CookieManager.isConnectedAppl() == "true") {
+        $(".header").remove();
+        $(".grid-menu").remove();
+        $(".footer-link").remove();
+        $(".auto-login").remove();
+    }
+});
+</script>
+
+<script src="/responsive/js/common.js?20250909"></script>
+<script src="/responsive/js/Promise.min.js"></script>
+<script src="/responsive/js/utils/commonUtils.js?20250701"></script>
+<script type='text/javascript'>
+var path = location.pathname;
+var cinema_location = "";
+if (m = path.match(/\/ticket\/(.+)\//)) {
+   cinema_location = m[1];
+}else if (m = path.match(/\/schedule\/(.+)\//)) {
+   cinema_location = m[1];
+}else if (m = path.match(/\/theater\/(.+)\//)) {
+   cinema_location = m[1];
+} 
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+window.googletag = window.googletag || {cmd: []};
+googletag.cmd.push(function() {
+  
+  /* init dfp inventories */
+  var adlist;
+
+  if (!CookieManager.isMiniApp()) {
+    var _UA = navigator.userAgent;
+    var _asAndroid  = (_UA.indexOf('Android') > -1)? true:false;
+    var _asiPhone   = (_UA.indexOf('iPhone') > -1)? true:false;
+
+    if( (_asAndroid || _asiPhone) && window.innerWidth < 768 ) {
+      //SP
+      googletag.defineSlot('/21845941275/tohotheater_screeningschedule_sp_btf_320x180', ['fluid', [320, 180]], 'div-gpt-ad-1567419561630-0').addService(googletag.pubads());
+      googletag.defineSlot('/21845941275/tohotheater_screeningschedule_sp_btf_336x280', ['fluid', [336, 280]], 'div-gpt-ad-1567416167295-0').addService(googletag.pubads());
+      googletag.defineSlot('/21845941275/tohoTheater_screeningschedule_sp_btf_320x50_1', ['fluid', [320, 50]], 'div-gpt-ad-1571296341956-0').addService(googletag.pubads());
+
+      adlist = [
+        'div-gpt-ad-1567416116384-0',
+        'div-gpt-ad-1571293915894-0',
+        'div-gpt-ad-1567416073289-0',
+        'div-gpt-ad-1572411739922-0'
+      ];
+
+    } else {
+      //PC
+      googletag.defineSlot('/21845941275/tohotheater_screeningschedule_pc_btf_970x250', ['fluid', [970, 250]], 'div-gpt-ad-1567416116384-0').addService(googletag.pubads());
+      googletag.defineSlot('/21845941275/tohotheater_screeningschedule_pc_btf_728x90', ['fluid', [728, 90]], 'div-gpt-ad-1571293915894-0').addService(googletag.pubads());
+      googletag.defineSlot('/21845941275/tohotheater_screeningschedule_pc_btf_300x250_left', ['fluid', [300, 250]], 'div-gpt-ad-1567416073289-0').addService(googletag.pubads());
+      googletag.defineSlot('/21845941275/tohotheater_screeningschedule_pc_btf_300x250_right', ['fluid', [300, 250]], 'div-gpt-ad-1572411739922-0').addService(googletag.pubads());
+
+      adlist = [
+        'div-gpt-ad-1567419561630-0',
+        'div-gpt-ad-1567416167295-0',
+        'div-gpt-ad-1571296341956-0'
+      ];
+    }
+
+  } else {
+    //KDDIミニアプリ
+    adlist = [
+      'div-gpt-ad-1567419561630-0',
+      'div-gpt-ad-1567416167295-0',
+      'div-gpt-ad-1571296341956-0',
+      'div-gpt-ad-1567416116384-0',
+      'div-gpt-ad-1571293915894-0',
+      'div-gpt-ad-1567416073289-0',
+      'div-gpt-ad-1572411739922-0'
+    ];
+  }
+
+  adlist.forEach(function( val ) {
+    $('#' + val).hide();
+  });
+
+  googletag.pubads().setTargeting("cinema_location", cinema_location);
+  googletag.pubads().enableSingleRequest();
+  googletag.enableServices();
+});
+</script>
+
+<title>TOHOシネマズ なんば 本館・別館：上映スケジュール || TOHOシネマズ</title>
+<meta property="og:title" content="TOHOシネマズ なんば 本館・別館｜ TOHOシネマズ" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://hlo.tohotheater.jp/net/schedule/032/TNPI2000J01.do" />
+<meta property="og:site_name" content="TOHOシネマズ" />
+<meta property="fb:admins" content="100001179673892" />
+<meta name="description" content="「TOHOシネマズ なんば 本館・別館」の上映スケジュールです。" />
+<meta name="keywords" content="TOHOシネマズ なんば 本館・別館,映画,シネマ,vit,スケジュール,東宝,トーホー,大阪府,チケット" />
+<link rel="stylesheet" href="/responsive/css/theatertop.css">
+<link rel="stylesheet" href="/responsive/js/slider/sliderpro/css/slider-pro.min.css">
+</head>
+<body class="page-normal is-has-menu js-miniApp-header-login-flg" id="top">
+<header class="header is-normal js-miniApp-hide" role="banner">
+    <div class="header-ci"><a href="https://www.tohotheater.jp/" class="changeImgDomain"><img src="https://www.tohotheater.jp/responsive/images/module/logo-tohocinemas-01.png" width="116" alt="TOHO CINEMAS" class="changeImgDomain"></a></div>
+    <p class="header-button"><a href="#" class="js-menu-open"><i class="line"></i><i class="line"></i><i class="line"></i><span class="text"><span class="open">閉じる</span><span class="close">メニュー</span></span></a></p>
+</header>
+<header class="header is-simple is-au-hidden js-miniApp-show" id="js-miniApp-header-login" style="display: none" role="banner">
+    <div class="header-ci"><img src="https://www.tohotheater.jp/responsive/images/module/logo-tohocinemas-01.png" width="116" alt="TOHO CINEMAS" class="changeImgDomain">
+        <a href="#" class="btnRight" id="js-miniApp-header-login-link">
+            <span class="logIn">シネマイレージ会員の方はこちら</span>
+            <span class="logOut">シネマイレージ&nbsp;ログアウト</span>
+        </a>
+    </div>
+</header>
+
+<div class="grid">
+    <div class="grid-menu" id="js-menu">
+<script src="/responsive/js/menuLogin.js?20220207"></script>
+<script>
+if(localStorage.getItem('menu') == 'close') {
+    var body = document.getElementById('top');
+    var menu = document.getElementById('js-menu');
+    var menuButtons = document.getElementsByClassName('js-menu-open');
+    body.className += ' is-menu-close';
+    menu.className += ' is-menu-close';
+    for(var index in menuButtons) {
+        menuButtons[index].className += ' is-close';
+    }
+}            
+
+</script>
+    <nav role="navigarion" class="global">
+        <div class="global-overlay js-menu-open"></div>
+        <div class="global-pseudo-overlay js-menu-open"></div>
+        <div class="global-pseudo-main"></div>
+        <div class="global-main">
+            <div class="global-home">
+                <ul>
+                    <li><a href="https://www.tohotheater.jp/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_home" aria-hidden="true"></i>トップページ</a></li>
+                </ul>
+            </div>
+            <div class="global-home">
+                <ul>
+                    <li><a href="" id="js-menu-login-link"><i class="glyphicon glyphicon-icon_login" aria-hidden="true"></i><span id="js-menu-login-itemName">&nbsp;</span></a></li>
+                </ul>
+            </div>
+            <div class="global-tab js-simple-tab">
+                <div class="global-tab-nav">
+                    <ul class="js-simple-tab-nav">
+                        <li class="is-current"><a href="#simple-tab-01"><i class="glyphicon glyphicon-icon_theater" aria-hidden="true"></i><span class="text">劇場を探す</span></a></li>
+                        <li><a href="#simple-tab-02"><i class="glyphicon glyphicon-icon_movie" aria-hidden="true"></i><span class="text">作品を探す</span></a></li>
+                    </ul>
+                </div>
+                <div class="global-tab-panel js-simple-tab-panel is-current" id="simple-tab-01">
+                    <ul>
+                        <li class="search-theater-all"><a href="https://www.tohotheater.jp/theater/find.html" class="changeImgDomain"><i class="glyphicon glyphicon-icon_theater-all" aria-hidden="true"></i>すべての劇場</a></li>
+                        <li class="search-theater-premiumTheater"><a href="https://www.tohotheater.jp/service/premium_theater/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_premium_theater" aria-hidden="true"></i>プレミアムシアター<br>劇場一覧</a></li>
+                        <li class="search-theater-goon"><a href="https://www.tohotheater.jp/service/goon/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_goon" aria-hidden="true"></i>轟音シアター 劇場一覧</a></li>
+                        <li class="search-theater-imax"><a href="https://www.tohotheater.jp/service/imax/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_imax" aria-hidden="true"></i>IMAX 劇場一覧</a></li>
+                        <li class="search-dolby-cinema"><a href="https://www.tohotheater.jp/service/dolby-cinema/" class="changeImgDomain"><img src="/responsive/images/module/dolby_logo.png" width="110" alt="DolbyCinema"><span>劇場一覧</span></a></li>
+                        <li class="search-theater-mx4d"><a href="https://www.tohotheater.jp/service/mx4d/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_mx4d" aria-hidden="true"></i>MX4D 劇場一覧</a></li>
+                        <li class="search-theater-screen"><a href="https://www.tohotheater.jp/service/screen_x/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_screenx" aria-hidden="true"></i>SCREEN X 劇場一覧</a></li>
+                        <li class="search-theater-tcx"><a href="https://www.tohotheater.jp/service/tcx_dolbyatmos/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_tcx" aria-hidden="true"></i>TCX 劇場一覧</a></li>
+                        <li class="search-dolby-atmos"><a href="https://www.tohotheater.jp/service/tcx_dolbyatmos/" class="changeImgDomain"><img src="/responsive/images/module/dolby_atmos_logo.png" width="103.5" alt="DolbyAtmos"><span>劇場一覧</span></a></li>
+                        <li class="search-theater-premiumSeat"><a href="https://www.tohotheater.jp/service/premium_seat/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_seat" aria-hidden="true"></i>プレミアムシート<br>劇場一覧</a></li>					
+                    </ul>
+                </div>
+                <div class="global-tab-panel js-simple-tab-panel" id="simple-tab-02">
+                    <ul>
+                        <li class="search-movie-screening"><a href="/net/movie/TNPI3090J01.do"><i class="glyphicon glyphicon-icon_screening" aria-hidden="true"></i>上映中作品情報</a></li>
+                        <li class="search-movie-atmos"><a href="/net/movie/TNPI3080J01.do"><i class="glyphicon glyphicon-icon_release" aria-hidden="true"></i>公開予定作品情報</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="global-primary">
+                <ul class="group">
+                    <li class="global-event"><a href="https://www.tohotheater.jp/event/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_event" aria-hidden="true"></i><span class="text">舞台挨拶・<br>イベント</span></a></li>
+                    <li class="global-campaign"><a href="https://www.tohotheater.jp/campaign/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_privilege-01" aria-hidden="true"></i><span class="text">プレゼント・<br>キャンペーン</span></a></li>
+                    <li class="global-news"><a href="https://www.tohotheater.jp/news/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_news" aria-hidden="true"></i><span class="text">お知らせ</span></a></li>
+                    <li class="global-confirm"><a href="https://hlo.tohotheater.jp/net/ticket/TNPI2150J01.do" class="changeDomain"><i class="glyphicon glyphicon-icon_confirm" aria-hidden="true"></i><span class="text">購入情報の<br>確認</span></a></li>
+                </ul>
+            </div>
+            <div class="global-secondary">
+                <ul>
+                    <li class="global-ec"><a href="https://www.tohotheater.jp/food-drink/netshop/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_cart" aria-hidden="true"></i>ECサイト</a></li>
+                    <li class="global-food-drink"><a href="https://www.tohotheater.jp/food-drink/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_food-drink" aria-hidden="true"></i>フード＆ドリンク</a></li>
+                    <li class="global-service"><a href="https://www.tohotheater.jp/service/index.html" class="changeImgDomain"><i class="glyphicon glyphicon-icon_service" aria-hidden="true"></i>サービス案内</a></li>
+                    <li class="global-application"><a href="https://www.tohotheater.jp/app/" class="changeImgDomain"><img src="https://www.tohotheater.jp/responsive/images/module/icon-application-01.png" width="20" alt="" class="changeImgDomain">スマートフォンアプリ</a></li>
+                    <li class="global-officialSNS"><a href="https://www.tohotheater.jp/sns/" class="changeImgDomain"><i class="glyphicon glyphicon-icon_all_sns" aria-hidden="true"></i>公式SNSアカウント</a></li>
+                    <li class="global-qa"><a href="https://help.tohotheater.jp/?site_domain=default" target="_blank"><i class="glyphicon glyphicon-icon_qa" aria-hidden="true"></i>ご質問・ご意見</a></li>
+                    <li class="global-sitemap"><a href="https://www.tohotheater.jp/info/sitemap.html" class="changeImgDomain"><i class="glyphicon glyphicon-icon_sitemap" aria-hidden="true"></i>サイトマップ</a></li>
+                    <li class="global-company"><a href="http://www.tohocinemas.co.jp/" target="_blank"><i class="glyphicon glyphicon-icon_company" aria-hidden="true"></i>企業情報</a></li>
+                    <li class="global-company"><a href="https://www.tohocinemas.co.jp/recruit/entry/" target="_blank"><i class="glyphicon glyphicon-icon_recruit" aria-hidden="true"></i>採用情報</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="global-empty"></div>
+    </nav>
+<script>
+
+var Menu = {
+    MenuClass: {
+        TAB_ID_START_WITH: 'simple-tab-',
+        TAB_CLASS: 'js-simple-tab-panel'
+    },
+    hideTabs: function() {
+        $('div[id^='+this.MenuClass.TAB_ID_START_WITH+'].'+this.MenuClass.TAB_CLASS).hide();
+        $('a[href^=#'+this.MenuClass.TAB_ID_START_WITH+']').parent().removeClass('is-current');
+    },
+    showTab: function(panelId) {
+        this.hideTabs();
+        $('div[id='+panelId+'].'+this.MenuClass.TAB_CLASS).show();
+        $('a[href=#'+panelId+']').parent().addClass('is-current');
+    }
+}
+
+$(function() {
+    $('li[class^=search-] a').each(function() {
+        var href = $(this).attr('href');
+        if(location.pathname != '/' && href.match(location.pathname+'$')) {
+            $(this).addClass('is-current');
+            var panelId = $(this).closest('.js-simple-tab-panel').attr('id');
+            Menu.showTab(panelId);
+        }
+    });
+});
+</script>
+</div>
+    <div class="grid-wrapper is-col-01">
+        <div class="grid-main">
+
+			<!-- /21845941275/tohotheater_screeningschedule_pc_btf_970x250 -->
+			<div id='div-gpt-ad-1567416116384-0'>
+			  <script>
+			    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1567416116384-0'); });
+			  </script>
+			</div>
+			
+            <div class="nav-local-aria js-nav-local js-miniApp-hide">
+                <div class="nav-local-block">
+                    <nav class="nav-local-theater">
+                        <ul class="nav-local-theater-list">
+                            <li class="schedule-arrow-tab-item is-current"><a href="/net/schedule/032/TNPI2000J01.do"><span>上映<br>スケジュール</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="/theater/032/info/calendar.html"><span>イベント<br>カレンダー</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="/theater/032/access.html"><span>アクセス</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="/theater/032/price.html"><span>料金・<br class="pc">割引<br class="sp">サービス表</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="/theater/032/institution.html"><span>施設紹介</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="#comingSoon" onClick="moveBeforeClose();"><span>公開予定作品</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="/theater/032/info/advanceticket.html"><span>前売券情報</span></a></li>
+                            <li class="schedule-arrow-tab-item"><a href="https://tohocinemas-recruit.net/jobfind-pc/" target="_blank"><span>採用情報</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="schedule-arrow">
+                        <div class="schedule-arrow-tab" aria-hidden="true">
+                            <ul>
+                                <li class="schedule-touchbox-left"><a href="#" class="schedule-arrow-tab-prev"></a></li>
+                                <li class="schedule-touchbox-right"><a href="#" class="schedule-arrow-tab-next"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+			
+			<!-- KDDIミニアプリ共通バナー -->
+			<div class="more-banner auPass bnrSchedule js-auSp-hide" style="display: none;">
+	<ul class="group">
+		<li><img src="/include/banner/images/mandey-690-100_1100en-ver.png" alt=""></li>
+	</ul>
+</div>
+			<!-- PayPayミニアプリ共通バナー -->
+			
+
+			<!-- /21845941275/tohotheater_screeningschedule_sp_btf_320x180 -->
+			<div id='div-gpt-ad-1567419561630-0'>
+			  <script>
+			    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1567419561630-0'); });
+			  </script>
+			</div>
+
+            <div class="theater theater-detail">
+                <div class="theater-inner">
+                    					<div class="theater-slider" aria-hidden="true">
+						<div class="slider-pro" id="theater-top-slider">
+							<div class="sp-slides">
+								<div class="sp-slide"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/theater_ph2_032.jpg" alt="TOHOシネマズなんば"></div>
+					                        <div class="sp-slide"><a href="https://www.toho.co.jp/toho-one/cinema/?utm_source=cinemaowned&utm_medium=owned&utm_campaign=beforelaunch/" target="_blank"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/theater_top_toho-one202512.jpg" alt="TOHO-ONE"></a></div>
+
+								<div class="sp-slide"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/jerasunday640-340.jpg" alt="JERAサンデイ"></div>
+					                        <div class="sp-slide"><a href="/vit/mobile-ticket.html" target="_blank"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/mobiletickets640.jpg" alt="モバイルチケット"></a></div>
+								<div class="sp-slide"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/theater_ph2_app1.jpg" alt="TOHOシネマズ公式アプリ"></div>
+								<div class="sp-slide"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/theater_ph2_cinemileage.jpg" alt="シネマイレージカード"></div>
+					                        <div class="sp-slide"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/toho_wed_banner_640x340_pre.jpg" alt="TOHOウェンズデイ"></div>
+                                                                <div class="sp-slide"><img class="changeImgDomain" src="https://www.tohotheater.jp/include/theater/theaterImage/giftcard640theater_top.jpg" alt="TOHOシネマズギフトカード"></div>
+							</div>
+						</div>
+					</div>
+                    <div class="theater-body">
+                        <h3 class="theater-name is-static">TOHOシネマズ なんば 本館・別館<br><span class="nav-local-en">TOHO CINEMAS Namba</span></h3>
+                        
+                        <div class="schedule-screen-icons icons">
+3D,MX4D,IMAX,ボックス,轟音
+</div>
+                        
+                        
+                        <dl class="theater-open">
+<dt>開場時間</dt>
+
+
+
+
+
+<dd>ＴＯＨＯシネマズなんば　本館</dd>
+
+
+<dd>
+01/24（土）
+
+
+&#12316;01/29（木）
+　
+
+08:00 OPEN　
+
+
+</dd>
+
+
+
+
+
+
+
+
+<dd>ＴＯＨＯシネマズなんば　別館</dd>
+
+
+
+<dd>
+01/24（土）
+
+
+&#12316;01/29（木）
+　
+
+09:30 OPEN　
+
+
+</dd>
+
+
+
+
+
+
+</dl>
+
+
+
+                    </div>
+                </div>
+                <div class="schedule-group" id="schedule-scroll">
+                    <a href="#theater-schedule" class="schedule-check js-smooth">上映スケジュールを見る<i></i></a>
+                </div>
+            </div>
+            
+            <div class="sns js-miniApp-hide">
+                <ul>
+                    <li class="sns-x"><a href="#" id="x_bt" target="_blank"><span class="text">X</span><i class="glyphicon glyphicon-icon_x" aria-hidden="true"></i></a></li>
+                    <li class="sns-line"><a href="#" id="line_bt"><img src="https://www.tohotheater.jp/responsive/images/module/icon-line-01.png" alt="LINE" width="35"></a></li>
+                </ul>
+            </div>
+
+            
+            
+
+            
+
+            <!--  MTからのインクルードファイル(新規) -->
+            <section class="news">
+                <h2 class="news-title">劇場からのお知らせ</h2>
+                
+                <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice177140"><b><font color="red">はじめて利用する方へ</font></b><i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice177140">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    ・<b>インターネットからチケットを購入する手順</b><br /><font color="FF0000">ムビチケの使い方は、リンク先ページを下にスクロールしてご参照ください</font><br /><a href="/vit/vit_buy.html">詳しくはこちら</a><br />・<b>上映スケジュールの更新について</b><br />毎週火曜日ごろ、準備が整い次第、翌1週間分のスケジュールを更新しています。<br />例）8月12日（火）頃に、8月15日（金）～8月21日（木）の上映スケジュールを掲出<br />※祝日や祭日は上映スケジュール更新のタイミングが異なる場合がございます<br /><br /><a href="https://help.tohotheater.jp/?site_domain=default" target="_blank">「よくあるお問い合わせ」はこちら</a><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice170736">シネマイレージが生まれ変わります　「TOHO-ONE」2026年3月スタート！<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice170736">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    詳しくは<a href="https://www.toho.co.jp/toho-one/cinema/?utm_source=cinemaowned&utm_medium=owned&utm_campaign=beforelaunch" target="_blank">こちら</a><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice166741"><font color="red">TOHOシネマズからのメールが届かないお客様へ</font><i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice166741">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    TOHOシネマズからメールが届くまでに最大１分かかる場合がございます。また、ご利用中のメールボックス内の迷惑メールフォルダーなどへ振り分けられている場合もございますので、あらためてご確認ください。<br /><br />・メールの再送は承っておりません。<br /><br />・インターネットチケット（vit）をご利用のお客様で、購入完了メールが届かない場合は、ご鑑賞予定の劇場までお電話にてお問い合わせください。<br /><br />　劇場問い合わせ一覧<br /><a href="https://www.tohotheater.jp/faq/theater.html">https://www.tohotheater.jp/faq/theater.html</a><br /><br />・TOHOシネマズアプリ経由でチケットを購入された場合は、アプリ画面「チケット」から購入情報を確認できます。<br /><br /><hr/>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<br /><br /><strong>●正常にメールを受信していただくために</strong><br /><br /><strong>ドメイン、固定メールアドレスの許可設定をする</strong><br />「@tohotheater.jp」「@ml.tohotheater.jp」が受信できる設定であるかご確認ください。<br /><br /><strong>メールボックスの容量を確認する</strong><br />メールボックスが容量オーバーになっていないかご確認の上、必要に応じて不要なメールを削除してください。<br /><br /><strong>フリーメールを使用する</strong><br />キャリアメール（docomo・auなど）は、受信できない初期設定となっている場合がございます。<br />フリーメール（Gmail・Yahoo!メールなど）のご利用を推奨いたします。<br /><br />メール設定の詳細につきましては、ご契約のプロバイダや携帯電話会社のサポートセンターへお問い合わせください。<br /><br />詳細は以下、「よくある質問」をご確認ください<br /><br />TOHOシネマズからのメールが届きません<br /><a href="https://help.tohotheater.jp/faq/show/2942">https://help.tohotheater.jp/faq/show/2942</a><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice170447">ECサイトについて<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice170447">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    ザ・プライム・コレクション商品購入は<a href="https://www.tohotheater.jp/food-drink/netshop/">こちら</a><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice140775">飲食売店［FOOD＆DRINK］アレルゲン情報<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice140775">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    飲食売店［FOOD＆DRINK］アレルゲン表は<a href="/pdf/allergy/allergy.pdf" target="_blank">こちら</a><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice105315">MX4Dのご鑑賞に関する注意事項<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice105315">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    いつもTOHOシネマズをご利用いただきありがとうございます。<br />MX4Dのご鑑賞につきましては、注意事項をご確認のうえ、お楽しみください。<br /><br />■以下のお客様は、MX4Dをご鑑賞いただけませんので、あらかじめご了承ください。<br />・身長100cm未満の方<br />※チャイルドシートのご利用やお子様を膝の上に座らせてのご鑑賞はできません<br />・妊娠中の方、体調のすぐれない方、車いすをご利用の方、心臓・背中・腰・首などに障がいがある方<br />・乗り物酔いしやすい方、特別な疾病のある方、泥酔している方<br /><br />■その他注意事項<br />・ポップコーンやドリンク等はご飲食いただけますが、上映中はシートが激しく動きます。<br />飲食物がこぼれて衣服が汚れたり、温かい飲み物による火傷等は、当館では責任を負いかねます。<br />・劇場売店以外の飲食物のお持込はご遠慮いただいております。<br />・上映中、水が顔、衣類、飲食物等にかかる場合がございますのでご了承ください。<br /><br /><a href="https://www.tohotheater.jp/service/mx4d/" target="_blank">【MX4Dご鑑賞にあたってのご注意】https://www.tohotheater.jp/service/mx4d/</a><br /><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice183189"><font color="red">TOHOシネマズなんばにて1月1日（木）8時15分の回「（MX4D）チェンソーマン レゼ編」をご鑑賞のお客様へ</font><i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice183189">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    当該上映回において、MX4Dの効果が正常に作動しない状態で上映されたことが判明いたしました。楽しみにご来場いただいたにもかかわらず、ご迷惑をお掛けし誠に申し訳ございません。<br /><br />大変お手数ではございますが、次回TOHOシネマズなんば（本館）へお越しいただいた際に劇場係員までお声掛けいただくか、下記までご連絡くださいますようお願い申し上げます。<br /><br />今回の発生事象を重く受け止め、再発防止に向け取り組んでまいります。<br />多大なるご迷惑をお掛けいたしましたこと、深くお詫び申し上げます。<br /><br /><br />【本件に関するお問い合わせ】<br />劇場名　：TOHOシネマズなんば<br />電話番号：050-6868-5043<br />（AM10:00～PM9:00はオペレーターへ転送できます）<br /><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice177364"><font color="red">年齢による入場規制につきまして</font><i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice177364">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    大阪府では、上映終了時間が22時を過ぎる作品には、18歳未満の方は、保護者同伴でもご入場いただけません。<br />また、上映終了時間が19時を過ぎる作品には、保護者が同伴されていない16歳未満の方は、ご入場いただけません。予め、ご了承下さい。<br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+    
+  
+  
+    
+      <div class="news-item">
+        <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice27895">入場者プレゼントの配布に関する注意事項、および配布終了のお知らせ<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+        <div class="news-toggle-panel" id="anchor-notice27895">
+          <div class="news-body">
+            <ul class="news-list">
+              <li>
+                
+                <span class="text">■入場者プレゼントの配布に関する注意事項■<br />・入場者プレゼントは各回ご入場時にお渡し致します。無くなり次第終了となりますので予めご了承ください。<br />  また、ご入場時以降のお渡しは致しかねます。（配布に関する特別な指定がある場合を除く）<br />・チケットを複数枚お持ちいただいても、お一人様1上映回につき特典はお１つのお渡しとなります。<br />・配布に際し入場者プレゼントの種類はお選びいただけません。また、交換は致しかねます。<br /><br /><font color="red">■配布終了作品■</font><br /><font color="red">下記作品の入場者プレゼントはご好評につき終了致しました。何卒、ご了承くださいませ。</font><br /><br />『国宝』<br />・【第1弾】特製ビジュアルステッカー<br /><br />『アバター：ファイア・アンド・アッシュ』<br />・【IMAX限定】A3ポスター<br /><br />『ズートピア2』<br />・【IMAX限定】A3ポスター<br />・【第5弾】大ヒット記念 特別ビジュアルボード<br /><br />『劇場版「鬼滅の刃」無限城編 第一章 猗窩座再来』<br />・原作者・吾峠呼世晴イラスト 特製アートスタンド＋ポスターデザインカード<br />・【MX4D限定】4Dビジュアルオリジナルステッカー<br /><br />『映画「ヒプノシスマイク -Division Rap Battle-」』<br />・【第15弾】一為（Kazui）描き下ろしイラストCLEAR CARD ver.2<br /><br />※在庫状況は随時変動致します。 <br />配布が終了している場合がございますので詳細はお問い合わせ下さい。 <br />問合わせ先：050-6868-5043【10:00～21:00】</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice132123">ベイビークラブシアター実施のお知らせ<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice132123">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    TOHOシネマズ株式会社は、“子育てをする全ての方”を対象として皆さまに映画をお楽しみいただきたいという思いを込めて、「ベイビー クラブ シアター」サービスを開始いたします。<br /><strong><a href="https://www.tohotheater.jp/news/babyclubtheater.html">ベイビークラブシアターとは？</a></strong><br /><br />日　　時：2月5日（木）<br />上映作品：『クスノキの番人』<br />上映時間：時間未定<br /><br />日　　時：2月12日（木）<br />上映作品：『ほどなく、お別れです』<br />上映時間：時間未定<br /><br />日　　時：2月19日（木）<br />上映作品：『国宝』※PG12<br />上映時間：時間未定<br /><br />日　　時：2月26日（木）<br />上映作品：『映画「教場 Requiem」』<br />上映時間：時間未定<br /><br /><font color="red">※チケットは、インターネットまたは実施劇場の窓口でお買い求めください（自動券売機ではお買い求めいただけません）<br />※未就学児童のお子様連れのお客様のみご鑑賞いただけます</font><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+    
+      
+        <div class="news-item">
+          <h3 class="news-headline toggle-button js-toggle-button" data-href="anchor-notice4257">日本語字幕付き上映のご案内<i class="glyphicon glyphicon-icon_arrow-open" aria-hidden="true"></i></h3>
+          <div class="news-toggle-panel" id="anchor-notice4257">
+            <div class="news-body">
+              <ul class="news-list">
+                <li>
+                  
+                  <span class="text">
+                    TOHOシネマズなんばでは、邦画作品の日本語字幕版上映を実施しております。 <br />チケットは、PC・スマートフォン・劇場窓口共に、各上映日の2日前から販売いたします。 <br />※日本語字幕版は、日本語のセリフなどが字幕で表示され、より多くの方に作品を楽しんでいただく為の上映です。<br /><br />『恋愛裁判』<br />■2/7（土）～2/10（火）<br />時間未定<br /><br />『JO1DER SHOW 2025‘WHEREVER WE ARE’IN TOKYO DOME - LIVE FILM』<br />■2/14（土）～2/17（火）<br />時間未定<br /><br /><strong>◆字幕メガネの貸し出しについて◆</strong><br />「聞こえない方」「聞こえにくい方」に字幕メガネ端末を貸出いたします。<br /><font color="red">※申し込みはこちらから↓</font><br /><strong><a href="https://help.tohotheater.jp/helpdesk?site_domain=mobile&category_id=3">【事前受付申し込みフォーム】</a></strong><br />※MX4D（2D・3D）の上映は、字幕メガネの貸出対象外となります<br />※字幕メガネがご利用いただける作品は、以下のホームページにてご案内のある『HELLO!MOVIE』方式の字幕メガネ対応作品のみとなります<br /><strong><a href="https://www.bfeiga.net/">映画みにいこ！バリアフリー映画情報</a></strong>※『UDCast』方式に対応したバリアフリー上映をご希望のお客様は、以下のサイトをご確認ください<br /><strong><a href="https://udcast.net/howtouse/">UDCast MOVIEの使い方</a></strong><br/>
+                    <a href=""></a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+    
+  
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+  
+  
+
+
+            </section>
+            <div class="theater-more">
+                
+                
+                <div class="more-note" id="more-anchor-03">
+    <h2 class="title">※ご購入の際の注意事項</h2>
+    <p class="text">インターネットチケット販売“vit&reg;”はご鑑賞希望日の2日前からご利用いただけます（一部上映を除く）。</p>
+    <p class="note">※大阪府では18歳未満の方は終映が22：00を過ぎる上映回にはご入場いただけません。<br>
+        そのため、18歳未満の方はチケット購入はお受けできかねます。あらかじめご了承ください。<br>
+※大阪府では16歳未満の方で保護者同伴でない場合は、終映が19：00を過ぎる上映回にはご入場いただけません。あらかじめご了承ください。</p>
+
+            <p class="note">インターネットチケット販売“vit&reg;”より障がい者割引チケットをご購入希望のお客様は<a href="#" class="js-modalShow" data-modal="modal-target-alert">こちら</a><br>
+        <div class="more-button" id="more-anchor-04">
+            <p><a href="#more-anchor-03" id="js-more-button" data-href="more-anchor-04">もっと見る</a></p>
+        </div>
+</div>
+<div id="more-banner" class="slider-pro js-miniApp-hide">
+    <div class="sp-slides">
+        <!--<div class="sp-slide"><a href="/theater/032/info/mamas_club_theater.html"><img class="sp-image changeImgDomain" src="https://www.tohotheater.jp/responsive/images/banner/banner-mamasclub-01.png" alt="ママズクラブシアターは、赤ちゃん連れのお客様のみご入場いただけます。上映予定情報はこちら"></a></a></div>-->
+        <div class="sp-slide"><a href="https://entm.auone.jp/toho/aumonday/?medid=thc_ad&srcid=movie&serial=6892" target=“_blank”><img class="sp-image changeImgDomain" src="https://www.tohotheater.jp/responsive/images/banner/aumonday_20241002-610_104.jpg" alt="auマンデイ"></a></div>
+        <div class="sp-slide"><a href="https://www.tohotheater.jp/campaign/jerasunday.html"><img class="sp-image changeImgDomain" src="https://www.tohotheater.jp/responsive/images/banner/jerasunday610-104.jpg" alt="JERAサンデイ"></a></div>
+    </div>
+</div>
+
+<div class="more-banner js-miniApp-hide">
+    <ul class="group">
+        <!--<li><a href="/theater/032/info/mamas_club_theater.html"><img class="changeImgDomain" src="https://www.tohotheater.jp/responsive/images/banner/banner-mamasclub-01.png" alt="ママズクラブシアターは、赤ちゃん連れのお客様のみご入場いただけます。上映予定情報はこちら"></a></li>-->
+        <li><a href="https://entm.auone.jp/toho/aumonday/?medid=thc_ad&srcid=movie&serial=6892" target=“_blank”><img class="changeImgDomain" src="https://www.tohotheater.jp/responsive/images/banner/aumonday_20241002-610_104.jpg" alt="auマンデイ"></a></li>
+        <li><a href="https://www.tohotheater.jp/campaign/jerasunday.html"><img class="changeImgDomain" src="https://www.tohotheater.jp/responsive/images/banner/jerasunday610-104.jpg" alt="JERAサンデイ"></a></li>
+    </ul>
+</div>
+
+<div class="modal-wrap is-pc-680 js-modal" data-modal-content="modal-target-alert">
+    <div class="modal-content-wrap" style="right: 6px;">
+        <div class="modal-content js-modal-content" style="max-height: 835px;">
+            <div class="modal-common">
+                <h1 class="title">障がい者手帳をお持ちのお客様へ</h1>
+                <h2 class="title-02">車椅子でご鑑賞のお客様</h2>
+                <p>車椅子スペースをインターネット販売vit&reg;からご購入いただけます。<br>座席選択画面にて車椅子席を選択してください。（お連れ様がいらっしゃる場合は続けて座席を選択してください。）<br>チケット券種選択画面では「障がい者割引（鑑賞料金1,000円）」のみ表示されますので、こちらをお選びください。<br>チケット発券の際は、障がい者手帳もしくは障がい者手帳アプリ「ミライロID」をお持ちいただき、余裕を持ってチケットカウンターへお越しください。<br>※携帯からはピンポイント座席選択時のみご購入いただけます。エリア選択画面からはご購入いただけませんのでご注意ください。</p>
+                <h2 class="title-02">上記以外で、障がい者手帳をお持ちのお客様</h2>
+                <p>チケット券種選択画面にて「障がい者割引（鑑賞料金1,000円）」をお選びください。<br>（付き添いのお客様がいらっしゃる場合は、1名様まで「障がい者割引（鑑賞料金1,000円）」の対象となりますので、ご本人様と同じチケットをご購入ください。）<br>ご入場の際に、障がい者手帳もしくは障がい者手帳アプリ「ミライロID」をチケットと一緒にご提示ください。</p>
+                <ul class="modal-note-list is-contract">
+                    <li>※一部、割引サービス適用外の作品がございます。</li>
+                    <li>※３Ｄ上映など別途、追加料金を頂戴する場合がございます。</li>
+                </ul>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+
+
+				<!-- /21845941275/tohotheater_screeningschedule_pc_btf_728x90 -->
+				<div id='div-gpt-ad-1571293915894-0'>
+				  <script>
+				    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1571293915894-0'); });
+				  </script>
+				</div>
+            </div>
+            <section id="theater-schedule" class="section is-lv-02">
+                <h2 class="heading is-lv-02-02">上映スケジュール</h2>
+
+        		<!-- /21845941275/tohoTheater_screeningschedule_sp_btf_320x50_1 -->
+				<div id='div-gpt-ad-1571296341956-0'>
+				  <script>
+				    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1571296341956-0'); });
+				  </script>
+				</div>
+                <div class="schedule main">
+                    <div class="schedule-tab js-schedule-tab">
+                        <div class="schedule-tab-wrapper">
+                            <div class="schedule-tab-viewport">
+                                <div class="schedule-tab-inner group">
+                                    
+                                </div>
+                            </div>
+                            <div class="schedule-tab-nav" aria-hidden="true">
+                                <ul>
+                                    <li><a href="#" class="schedule-tab-prev"></a></li>
+                                    <li><a href="#" class="schedule-tab-next"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="theater-each-service">
+                    </div>
+                    
+                </div>
+                
+                <section class="section coming-soon-block js-miniApp-hide" id="comingSoon">
+                    <h3 class="heading is-lv-02 coming-soon-ttl"><span class="ja">この劇場の公開予定作品</span><span class="en">Coming Soon & In Theaters</span></h3>
+                    <div>
+                        <div id="comingSoonSliderTarget">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="schedule move">
+                    <p class="schedule-moveto"><a href="/theater/find.html" class="button button-large button-primary button-auto">劇場一覧はこちら</a></p>
+                </div>
+            </section>
+
+			<div class="ga_banners">
+				<ul class="ga_group">
+					<li>
+						<!-- /21845941275/tohotheater_screeningschedule_pc_btf_300x250_left -->
+						<div id='div-gpt-ad-1567416073289-0'>
+						  <script>
+						    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1567416073289-0'); });
+						  </script>
+						</div>
+			      		<!-- /21845941275/tohotheater_screeningschedule_sp_btf_336x280 -->
+						<div id='div-gpt-ad-1567416167295-0'>
+						  <script>
+						    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1567416167295-0'); });
+						  </script>
+						</div>
+					</li>
+					
+					<li class="sp-none">
+						<!-- /21845941275/tohotheater_screeningschedule_pc_btf_300x250_right -->
+						<div id='div-gpt-ad-1572411739922-0'>
+						  <script>
+							googletag.cmd.push(function() { googletag.display('div-gpt-ad-1572411739922-0'); });
+						  </script>
+						</div>
+					</li>
+				</ul>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-movie is-simple"></div>
+
+<footer class="footer is-normal js-miniApp-hide" role="contentinfo">
+    <div class="footer-pagetop">
+        <p><a href="#top" class="js-smooth">ページトップへ</a></p>
+    </div>
+    <div class="footer-link">
+        <ul>
+            <li><a href="http://www.tohocinemas.co.jp/" target="_blank">企業情報</a></li>
+            <li><a href="https://www.tohotheater.jp/info/sitemap.html" class="changeImgDomain">サイトマップ</a></li>
+            <li><a href="https://www.tohotheater.jp/info/privacy.html" class="changeImgDomain">個人情報の取扱いについて</a></li>
+            <li><a href="https://www.tohotheater.jp/info/business_deal.html" class="changeImgDomain">特定商取引法に基づく表記</a></li>
+            <li><a href="https://www.tohotheater.jp/info/help.html" class="changeImgDomain">ご利用に際して</a></li>
+            <li><a href="https://www.tohotheater.jp/vit/legal_notice.html" class="changeImgDomain">vit&reg;利用規約</a></li>
+            <li><a href="javascript:void(0);" class="js-modalShowCookie js-optin-cookie-settings" data-modal="modal-cookie-01">Cookieの設定</a></li>
+        </ul>
+        <ul class="sns-area">
+            <li class="global-youtube sns-area-item"><a href="https://www.youtube.com/user/TOHOCINEMASmagazine" target="_blank"><i class="glyphicon glyphicon-icon_youtube" aria-hidden="true"></i><span class="text">youtube</span></a></li>
+            <li class="global-line sns-area-item"><a href="https://line.me/R/ti/p/%40tohocinemas" target="_blank"><i class="glyphicon glyphicon-icon_line" aria-hidden="true"></i><span class="text">line</span></a></li>
+            <li class="global-x sns-area-item"><a href="https://x.com/tohocinemas_m" target="_blank"><i class="glyphicon glyphicon-icon_x" aria-hidden="true"></i><span class="text">X</span></a></li>
+            <li class="global-instagram sns-area-item"><a href="https://www.instagram.com/tohocinemas_official/" target="_blank"><i class="glyphicon glyphicon-icon_instagram" aria-hidden="true"></i><span class="text">instagram</span></a></li>
+        </ul>
+    </div>
+    <div class="footer-copyright">
+        <p><small>TM &amp; &copy; TOHO Cinemas Ltd. All Rights Reserved.</small></p>
+    </div>
+</footer>
+<footer class="footer is-simple js-miniApp-show" style="display: none" role="contentinfo">
+    <div class="footer-pagetop">
+        <p><a href="#top" class="js-smooth">ページトップへ</a></p>
+    </div>
+    <div class="footer-wrapper group">
+        <div class="footer-copyright">
+            <p><small>TM &amp; &copy; TOHO Cinemas Ltd. All Rights Reserved.</small></p>
+        </div>
+    </div>
+</footer>
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', 
+'739386006168943');
+fbq('track', 
+"PageView");</script>
+<noscript><img 
+height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=739386006168943&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K35TJR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K35TJR');</script>
+<!-- End Google Tag Manager -->
+
+<script src="/responsive/js/optin.js?20230130"></script>
+<!-- cookieの設定モーダル -->
+<div class="modal-wrap is-pc-640_cookie js-modalCookie" data-modal-content="modal-cookie-01">
+	<div class="modal-content-wrap js-modal-content-wrap-cookie">
+		<div class="modal-content js-modal-content-cookie">
+			<div class="modal-cookie-condition">
+				<div class="cookieHeader">
+					<img src="/responsive/images/module/logo-tohocinemas-01.png" class="cookieLogo" alt="TOHO CINEMAS">
+					<i class="modal-close js-modal-close-cookie"></i>
+				</div>
+				<div class="cookieInner">
+					<div class="tab-wrap">
+						<input id="TAB-01" type="radio" name="TAB" class="tab-switch" checked="checked" /><label class="tab-label" for="TAB-01">必要不可欠なCookie</label>
+						<div class="tab-content">
+							<div class="tab-content-head">
+								<div class="title">必要不可欠なCookie</div>
+								<div class="activeMessage">常にアクティブ</div>
+							</div>
+							<div class="tab-content-text">
+								ログイン状態の判定や、プライバシー設定、画面内遷移、閲覧履歴がある劇場の情報保存、サイト上での各サービス利用に必要なCookieです。ブラウザの設定でブロックすることは可能ですが、各サービスが機能しなくなる可能性があります。このCookieが個人を特定できる情報を保持することはありません。
+							</div>
+							<a href="https://www.tohotheater.jp/info/cookie_policy.html" class="tab-content-link changeImgDomain">該当するCookie</a>
+						</div>
+						<input id="TAB-02" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" for="TAB-02">パフォーマンスのCookie</label>
+						<div class="tab-content">
+							<div class="tab-content-head">
+								<div class="title">パフォーマンスのCookie</div>
+								<div class="toggleSwitch">
+									<label class="toggleSwitch__label">
+										<input id="TOGGLE_02" type="checkbox" class="toggleSwitch__input">
+										<span class="toggleSwitch__content"></span>
+										<span class="toggleSwitch__circle"></span>
+									</label>
+								</div>
+							</div>
+							<div class="tab-content-text">
+								当サイトのパフォーマンス分析・改善のためのCookieです。訪問者数やページ閲覧数など、分析や状況を把握するために利用します。このCookieの利用が停止された場合、当サイト上でのお客様の動きを把握することはできません。
+							</div>
+							<a href="https://www.tohotheater.jp/info/cookie_policy.html" class="tab-content-link changeImgDomain">該当するCookie</a>
+						</div>
+						<input id="TAB-03" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" for="TAB-03">ターゲティングのCookie</label>
+						<div class="tab-content">
+							<div class="tab-content-head">
+								<div class="title">ターゲティングのCookie</div>
+								<div class="toggleSwitch">
+									<label class="toggleSwitch__label">
+										<input id="TOGGLE_03" type="checkbox" class="toggleSwitch__input">
+										<span class="toggleSwitch__content"></span>
+										<span class="toggleSwitch__circle"></span>
+									</label>
+								</div>
+							</div>
+							<div class="tab-content-text">
+								お客様に最適な広告配信を行うために利用されるCookieです。お客様の興味関心に基づき、他のウェブサイトでも関連性のある広告が表示されることがあります。このCookieの利用が停止された場合、ターゲット性のない一般的な広告が表示されるようになります。
+							</div>
+							<a href="https://www.tohotheater.jp/info/cookie_policy.html" class="tab-content-link changeImgDomain">該当するCookie</a>
+						</div>
+					</div>
+				</div>
+				<div class="cookieUnderBtn">
+					<span class="cookieUnderBtn__text">※この画面を非表示にするには、下記いずれかを選択ください。</span>
+					<a href="javascript:void(0);" class="js-modal-save-settings">設定を保存する</a>
+					<a href="javascript:void(0);" class="js-modal-accept-all-cookies">全てのCookieを受け入れる</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- cookieの設定モーダル end -->
+
+<div class="optIn is-optin-close">
+	<div class="optIn_inner">
+		<p class="textArea">当サイトでは、サービス向上、アクセス状況計測、広告配信など利用目的によりCookieを分類しており、必要に応じてCookieをブロック(オプトアウト)することができます。Cookieの使用に関する詳細は<a href="https://www.tohotheater.jp/info/help.html" class="changeImgDomain">「ご利用に際して」</a>をご覧ください。<span class="sp-only">※この画面を非表示にするには、下記いずれかを選択ください。</span></p>
+		<p class="setting-btnArea">
+			<span class="setting-btnArea__text">※この画面を非表示にするには、<br>下記いずれかを選択ください。</span>
+			<a href="javascript:void(0);" class="js-modalShowCookie js-optin-cookie-settings" data-modal="modal-cookie-01">Cookieの設定</a>
+			<a href="javascript:void(0);" class="js-optin-accept-all-cookies">全てのCookieを受け入れる</a>
+		</p>
+	</div>
+</div>
+<script>
+function setHeight() {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setHeight();
+window.addEventListener('resize',setHeight);
+</script>
+
+<script>
+$(function() {
+	setTimeout(function(){
+		CookieManager.removeCookies();
+	},2000);
+});
+</script>
+
+<script src="/responsive/js/utils/iconUtils.js?20230407"></script>
+<script src="/responsive/js/utils/MTiconUtils.js"></script>
+
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-3d-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">デジタル3D上映について</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/3d_img.jpg" alt="3D">
+                </div>
+                <p>3D鑑賞用のメガネを使用することで、奥行きのある驚異の立体映像をお楽しみいただけます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-imax-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">IMAX&reg;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/imax_img.jpg" alt="IMAX&reg;">
+                </div>
+                <p>IMAX&reg;デジタルシアターは、映画を構成する「映像」「音響」「空間」「3D」「作品」という5つの要素を、IMAX社の独自の最新テクノロジーで最高水準まで高めた次世代のプレミアムシアター。シアター全体がIMAX&reg;仕様にカスタマイズされており、高品質デジタル映像と大迫力サラウンドシステム、床から天井、左右の壁いっぱいに広がるスクリーンにより、まるで映画の中にいるようなリアルな臨場感を体感できます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-mx4d-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">MX4D&trade;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/mx4d_img.jpg" alt="MX4D&trade;">
+                </div>
+                <p>映画のシーンに合わせて、客席のシートが前後、左右、上下に動くとともに、風、ミスト、香り、ストロボ、煙や振動など五感を刺激する11種の特殊効果が連動。通常のシアターでは決して味わえない「アトラクション型の映画鑑賞スタイル」を実現します。“MediaMation MX4D&trade;の登場によって、映画は「観る」から「体感する」に変わります。 ※MediaMation MX4D&trade;は作品や劇場によって使用される特殊効果が異なる場合がございます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-tcx-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">TCX&reg;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/tcx_img.jpg" alt="TCX&reg;">
+                </div>
+                <p>TOHO CINEMAS EXTRA LARGE SCREEN　独自規格の巨大スクリーン</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-atmos-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">DOLBY ATMOSとは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/atmos_img.jpg" alt="DOLBY ATMOS">
+                </div>
+                <p>日本初の「ドルビーアトモス」は、映画サウンドに、より自然で、リアルな音場をつくりだすことで、感覚を刺激する生き生きとした映画体験を提供し、観客をストーリーに引き込みます。映画館内のどの位置にでも音を精密に定位または移動させて、よりリアルに、より大きなインパクトを伝えることが可能になるため、観客はまるで映画の一場面に居るかのような感覚に陥ります。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-pb_seat-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">プレミア ボックスシート&reg;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/pb_seat_img.jpg" alt="プレミア ボックスシート">
+                </div>
+                <p>長時間の鑑賞でも疲れやストレスを感じさせないレザーシートに、重厚な造りの木目調の肘掛、ドリンクホルダー、荷物置きスペースまでを備えています。さらにシートを一席ずつ区切ることで、映画に没入できるプライベートな空間を創り出します。</p>
+                <ul>
+                    <li>海外のエアラインでも採用されているレザーシート</li>
+                    <li>ドリンクホルダーと荷物置きも合わせ、従来シートの1.5倍の広さ</li>
+                </ul>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-pr_seat-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">プレミア ラグジュアリーシート&reg;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/pr_seat_img.jpg" alt="プレミア ラグジュアリーシート">
+                </div>
+                <p>革製のリクライニングシートで、よりラグジュアリーに、ゆったりとした空間で映画をご鑑賞いただけます。<br><br>※画像は新宿のシートです</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-fr_seat-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">フロントリクライニングシート&reg;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/fr_seat_img.jpg" alt="フロントリクライニングシート">
+                </div>
+                <p>座席の最前列に配置された本シートならではの大迫力を体感できます。リクライニングしていただくことで、リラックスしながら映画の世界に没入することができます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-p_seat-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">プレミア シート&reg;とは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/p_seat_img.jpg" width="100%" alt="プレミア シート" class="image-border"></div>
+                <p>長時間の鑑賞でも疲れやストレスを感じさせない贅沢な革張りの肘掛とシートで、ゆったりと映画を鑑賞することができます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-premium-theater-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">PREMIUM THEATERとは？</h2>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/premium_theater_img.png" alt="プレミアムシアター" class="image-border"></div>
+                <p>“最高の映画体験”を追求した『TOHOシネマズ　プレミアム シアター』は、プレミアム ラージ フォーマット、プレミアム サウンド、プレミアム シートの「三つのプレミアム」を提供し、これまでにない圧倒的な臨場感と上質な空間をお約束します。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-680 js-modal" data-modal-content="modal-screenx-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-screenx">
+                <p class="title">SCREEN Xとは？</p>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/modal_top_screenx.jpg" alt="SCREEN X"></div>
+                <p class="text">「ScreenX」とは、次世代型映画上映システムとして世界的に注目を集めている、3面マルチプロジェクション・映画上映システムです。正面のスクリーンに加え、両側面（壁面）にも映像が投影され、270度の視界すべてで映画を鑑賞することができ、映画の世界に自分の感覚が没入していくような臨場感を体験することができます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-680 js-modal" data-modal-content="modal-dtsx-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-dtsx">
+                <p class="title">GDC featuring DTS:X&reg;とは？</p>
+                <div class="image is-center"><img src="" data-src="https://www.tohotheater.jp/responsive/images/modal/dtsx.jpg" alt="GDC featuring DTS:X"></div>
+                <p class="text">DTS:Xは、スピーカーの配置やチャンネル数にとらわれない立体音響システム。劇場内で自由に移動する音（オブジェクト）を体感できます。熊本県で唯一、当劇場でのみ特別なオーディオ体験が可能です。<br/><font size="1">※「DTS:X」は、DTS, Inc. の登録商標です。</font></p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-imax-laser-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">IMAX&reg;レーザーとは？</h2>
+                <div class="image is-center"><img src="" data-src="/responsive/images/modal/imax_laser_img.jpg" alt="IMAX&reg;レーザー">
+                </div>
+                <p>独創的な発想と優れたテクノロジーで映画鑑賞の可能性を広げてきた IMAX&reg;から、革新的な 4K レーザー投影システムと最新の 12Ch サウンドシステムを採用したIMAX&reg;レーザーが誕生。<br>IMAX&reg;ならではの大スクリーンに映し出される鮮明な映像とパワフルな高音質サウンド。これらが生み出すかつてない臨場感が客席を包み、観る者を映画の中へと導きます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-roaringSound-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">轟音シアター</h2>
+                <div class="image is-center"><img src="" data-src="/responsive/images/modal/modal_roaringsound.jpg" alt="轟音">
+                </div>
+                <p class="text">轟音(ごうおん)を全身で体感できるサウンド・シアター。アイソバリック方式を採用したサブウーハーを劇場に導入。アイソバリック方式はスピーカーユニットを向かい合わせで駆動させることで、通常のサブウーハーの1.5倍～2倍のパワーを発揮。他の劇場では体験できない、空気を震わせる体感型サウンド・シアターを実現します。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-680 js-modal" data-modal-content="modal-yogibo-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">Yogiboとは？</h2>
+                <div class="image is-center"><img src="" data-src="/responsive/images/modal/modal_yogibo.jpg" alt="Yogibo"></div>
+                <p class="text">Yogiboはビーズソファをはじめインテリア家具・生活雑貨などリラックスアイテムを取り扱うライフスタイルブランド。<br>Yogiboのビーズソファは従来型のビーズクッションとは異なり、1つでベッド・ソファ・リクライニングチェアなど、用途に合わせて形状を自由に変化させることができます。デザイン性も高い最先端のインテリアとして、ご自宅だけでなくホテルや温泉旅館、キャンプやグランピング施設、オフィスでのビジネスシーンなど、様々な場所で活用頂いています。現在、世界8ヶ国で展開しております。</p>
+                <p class="text">このYogiboをシアターに合わせた形にカスタマイズした新感覚のシートを映画館としては日本で初めて導入します。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-wideConfort-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">ワイドコンフォートシートとは？</h2>
+                <div class="image is-center"><img src="" data-src="/responsive/images/modal/modal_wide-comfort-seat.jpg" alt="ワイドコンフォートシート"></div>
+                <p class="text">ワイドコンフォートシートは、通常の一般席より横幅で約25cm、前後幅で約10cm広い座席スペースの確保を実現しました。<br>上品な色合いの革張りシートは、シンプルでありながらも高級感に溢れ、座り心地の良さはもちろんのこと、当社通常の一般席と比較し、横幅で約1.5倍のゆったりとした座席スぺースを確保しました。プライベート感を増した特別な座席は、映画への没入感を高めます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-dolbyCinema-01">
+    <div class="modal-content-wrap">
+        <div class="modal-content js-modal-content">
+            <div class="modal-common">
+                <h2 class="title">Dolby Cinemaとは？</h2>
+                <div class="image is-center"><img src="" data-src="/responsive/images/modal/modal_dolby_cinema.jpg" alt="dolbyCinema"></div>
+                <p class="text">通常の500倍のコントラストと驚異的な色域により色鮮やかでリアルな映像を創り出す“ドルビービジョン”と、息をのむほどリアルなサウンドが空間を包み込む“ドルビーアトモス”、入口から作品の世界に浸れる特別な演出でかつてないほどリアルに映画の世界を体感できます。</p>
+            </div>
+        </div>
+        <i class="modal-close js-modal-close"></i>
+    </div>
+</div>
+
+<!-- 鑑賞ポイント・マイル付与対象外-->
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-appreciationPoint-01">
+	<div class="modal-content-wrap">
+		<div class="modal-content js-modal-content">
+			<div class="modal-common">
+				<p class="text">本上映は、シネマイレージ会員の鑑賞ポイント・マイル付与の対象外です。</p>
+			</div>
+		</div>
+		<i class="modal-close js-modal-close"></i>
+	</div>
+</div>
+<!-- 特別興行（無料券利用不可）-->
+<div class="modal-wrap is-pc-620 js-modal" data-modal-content="modal-appreciationPoint-02">
+	<div class="modal-content-wrap">
+		<div class="modal-content js-modal-content">
+			<div class="modal-common">
+				<p class="text">6ポイント鑑賞、各種ご招待券、株主招待券はご利用いただけません。</p>
+				<p class="text">特別興行には下記作品が該当します。<br>・舞台挨拶付上映<br>・旧作リバイバル上映<br>・特別料金設定作品<br>・その他、先行上映作品や期間限定上映、中継、録画作品など</p>
+			</div>
+		</div>
+		<i class="modal-close js-modal-close"></i>
+	</div>
+</div>
+
+
+<script src="/responsive/js/slider/sliderpro/js/jquery.sliderPro.min.js"></script>
+<script type="text/javascript" src="/responsive/js/utils/geoSearch.js?20220412"></script>
+<script type="text/javascript" src="/responsive/js/utils/scheduleUtils.js?20200527"></script>
+<script type="text/javascript" src="/responsive/js/toHtml/theaterReadHistory.js"></script>
+<script type="text/javascript" src="/responsive/js/toHtml/theaterTop.js?20250523"></script>
+
+<script src="/responsive/js/utils/commonSliderUtils.js?20190808"></script>
+<script src="/responsive/js/toHtml/comingSoonSlider.js?20190712"></script>
+<script type="text/javascript" src="/responsive/js/miniApp.js"></script>
+
+
+<input type="hidden" name="member_str" value="" />
+<input type="hidden" name="show_day" value="20260124" />
+<script>
+$(function() {
+    TheaterTop.init(['032']);
+    var snsTitle = encodeURIComponent("TOHOシネマズ なんば 本館・別館 ｜ TOHOシネマズ");
+    var encodedSpace = encodeURIComponent(' ');
+    var encodedLineFeed = '%0D%0A';
+    var snsContent = encodeURIComponent("https://hlo.tohotheater.jp/net/schedule/032/TNPI2000J01.do");
+    var xId = encodeURIComponent('#tohocinemas_m');
+    $("#x_bt").attr("href" ,"http://x.com/intent/tweet?text="+snsTitle+encodedSpace+snsContent+encodedSpace+xId);
+    $("#facebook_bt").attr("href" ,"http://www.facebook.com/sharer.php?u="+snsContent+"&amp;t="+snsTitle);
+    $("#line_bt").attr("href" ,"http://line.me/R/msg/text/?"+snsTitle+encodedLineFeed+snsContent);
+	
+	//重要なお知らせがあれば、モーダルを表示させる
+	var $theaterTopModal = document.getElementById("seetSpacing01");
+	if($theaterTopModal){
+		$theaterTopModal.click();
+	}
+});
+
+function moveBeforeClose(){
+    // スマホ用　劇場メニューの選択中のタブを中央に表示する
+    theaterMenuCurrnetTabCenter();
+}
+</script>
+<script type="text/javascript" src="/_Incapsula_Resource?SWJIYLWA=719d34d31c8e3a6e6fffd425f7e032f3&ns=4&cb=2121622590" async></script></body>
+</html>
