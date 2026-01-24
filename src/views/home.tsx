@@ -57,10 +57,15 @@ export const Home = (props: HomeProps) => {
 
             {schedules.length === 0 && (
                 <div class="text-center py-10 text-gray-500">
-                    <p>No schedules found.</p>
-                    <a href="/api/scrape" class="text-violet-400 underline">Trigger Manual Scrape (Test)</a>
+                    <p>スケジュールが見つかりません。</p>
                 </div>
             )}
+
+            <div class="text-center mt-8 mb-12">
+                <a href="/api/scrape" class="inline-block bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded transition">
+                    🔄 手動スクレイピング実行 (再取得)
+                </a>
+            </div>
         </Layout>
     );
 };
