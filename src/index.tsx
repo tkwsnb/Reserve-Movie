@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import db from "./db";
-import { Schedule, Candidate } from "./db/schema";
+import type { Schedule, Candidate } from "./db/schema";
 import { scraper } from "./services/scraper";
 import { obsidian } from "./services/obsidian";
 import { Home } from "./views/home";
@@ -118,5 +118,89 @@ app.get("/api/scrape", async (c) => {
 
     return c.redirect("/");
 });
+
+// API: Search Schedules (Now Showing)
+app.get("/api/schedules", (c) => {
+    const latStr = c.req.query("lat");
+    const lonStr = c.req.query("lon");
+    const radiusStr = c.req.query("radius"); // in km
+    const offsetStr = c.req.query("offset");
+    const limitStr = c.req.query("limit");
+
+    if (!latStr || !lonStr) {
+        return c.json({ error: "Latitude and Longitude are required" }, 400);
+    }
+
+    const lat = parseFloat(latStr);
+    const lon = parseFloat(lonStr);
+    const radius = parseFloat(radiusStr || "5");
+    const offset = parseInt(offsetStr || "0");
+    const limit = parseInt(limitStr || "20");
+
+    // 1. Get all theaters
+    const theaters = db.query("SELECT * FROM theaters").all() as any[];
+
+    // 2. Filter theaters by distance (Haversine formula approximation)
+    const nearbyTheaterIds = theaters.filter(t => {
+        if (!t.latitude || !t.longitude) return false;
+        const d = getDistanceFromLatLonInKm(lat, lon, t.latitude, t.longitude);
+        return d <= radius;
+    }).map(t => t.id);
+
+    if (nearbyTheaterIds.length === 0) {
+        return c.json({ schedules: [], hasMore: false });
+    }
+
+    // 3. Query schedules for these theaters (Future only)
+    // Note: handling array in SQL via parameter substitution is tricky in some drivers, 
+    // manually constructing string for IN clause is often done in simple SQLite wrappers 
+    // but dangerous if not careful. Here IDs are integers so it's safer.
+    const idsString = nearbyTheaterIds.join(",");
+    const now = new Date().toISOString();
+
+    const query = db.query(`
+        SELECT s.*, t.name as theater_name, t.latitude, t.longitude 
+        FROM schedules s
+        JOIN theaters t ON s.theater_id = t.id
+        WHERE s.theater_id IN (${idsString})
+        AND s.start_time > $now
+        ORDER BY s.start_time ASC
+        LIMIT $limit OFFSET $offset
+    `);
+
+    const schedules = query.all({
+        $now: now,
+        $limit: limit + 1, // Fetch one more to check 'hasMore'
+        $offset: offset
+    }) as any[];
+
+    const hasMore = schedules.length > limit;
+    if (hasMore) {
+        schedules.pop(); // Remove the extra one
+    }
+
+    return c.json({
+        schedules,
+        hasMore
+    });
+});
+
+// Helper: Haversine Formula
+function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    return d;
+}
+
+function deg2rad(deg: number) {
+    return deg * (Math.PI / 180);
+}
 
 export default app;

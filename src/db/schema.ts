@@ -16,6 +16,7 @@ export interface Schedule {
   end_time?: string; // ISO8601 string
   duration?: number; // minutes
   booking_url: string;
+  theater_name?: string; // Joined field
 }
 
 export interface Candidate {
