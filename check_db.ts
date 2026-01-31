@@ -2,8 +2,12 @@ import { Database } from "bun:sqlite";
 
 const db = new Database("movie_reserve.sqlite");
 
-console.log("Theaters count:", db.query("SELECT count(*) as c FROM theaters").get().c);
-console.log("Schedules count:", db.query("SELECT count(*) as c FROM schedules").get().c);
+const theaters = db.query("SELECT count(*) as c FROM theaters").get() as any;
+const schedules = db.query("SELECT count(*) as c FROM schedules").get() as any;
+
+console.log(`Theaters: ${theaters.c}`);
+console.log(`Schedules: ${schedules.c}`);
+
 
 const theater = db.query("SELECT * FROM theaters LIMIT 1").get();
 console.log("Sample Theater:", theater);
