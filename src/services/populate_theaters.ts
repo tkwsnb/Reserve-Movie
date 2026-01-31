@@ -142,10 +142,82 @@ async function run() {
                 $lon: coords ? coords.lon : null
             });
 
+            // Get Theater ID
+            const theaterRow = db.query("SELECT id FROM theaters WHERE url = $url").get({ $url: detailUrl }) as any;
+            if (!theaterRow) {
+                console.log(`      -> Error: Could not retrieve ID for ${name}`);
+                continue;
+            }
+            const theaterId = theaterRow.id;
+
+            // Parse Schedules
+            const articles = detailDoc.querySelectorAll("article");
+            const schedulesToInsert: any[] = [];
+            const now = new Date();
+            const currentYear = now.getFullYear();
+
+            for (const art of articles) {
+                const titleEl = art.querySelector("h2");
+                const title = titleEl?.textContent?.trim();
+                if (!title) continue;
+
+                const dayLis = art.querySelectorAll(".bl_screen_timeTable > ul > li");
+                for (const li of dayLis) {
+                    const dateEl = li.querySelector(".date");
+                    const dateText = dateEl?.textContent?.trim() || "";
+                    const dateMatch = dateText.match(/(\d{1,2})\/(\d{1,2})/);
+                    if (!dateMatch) continue;
+
+                    const month = parseInt(dateMatch[1]);
+                    const day = parseInt(dateMatch[2]);
+
+                    let year = currentYear;
+                    if (now.getMonth() === 11 && month === 1) year++;
+
+                    const timeLinks = li.querySelectorAll("dd a.startTime");
+                    for (const link of timeLinks) {
+                        const timeText = link.textContent?.trim() || "";
+                        const timeMatch = timeText.match(/(\d{1,2}):(\d{2})/);
+                        if (!timeMatch) continue;
+
+                        const hour = parseInt(timeMatch[1]);
+                        const min = parseInt(timeMatch[2]);
+
+                        // ISO: YYYY-MM-DDTHH:MM:SS
+                        const startTime = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}:00`;
+
+                        schedulesToInsert.push({
+                            $tid: theaterId,
+                            $title: title,
+                            $start: startTime,
+                            $url: detailUrl // Booking URL is usually specific, but theater URL is fine for now
+                        });
+                    }
+                }
+            }
+
             if (coords) {
-                console.log(`      -> Inserted/Updated: (${coords.lat}, ${coords.lon})`);
+                console.log(`      -> Inserted/Updated Theater: (${coords.lat}, ${coords.lon})`);
             } else {
-                console.log(`      -> Inserted (No Coords)`);
+                console.log(`      -> Inserted Theater (No Coords)`);
+            }
+
+            if (schedulesToInsert.length > 0) {
+                // Transactional Replace
+                db.transaction(() => {
+                    // Start fresh for this theater to avoid duplicates
+                    db.run("DELETE FROM schedules WHERE theater_id = ?", [theaterId]);
+                    const insertSched = db.prepare(`
+                        INSERT INTO schedules (theater_id, movie_title, start_time, duration, booking_url) 
+                        VALUES ($tid, $title, $start, 120, $url)
+                    `);
+                    for (const s of schedulesToInsert) {
+                        insertSched.run(s);
+                    }
+                })();
+                console.log(`      -> Inserted ${schedulesToInsert.length} schedules.`);
+            } else {
+                console.log(`      -> No schedules found.`);
             }
         }
     }
