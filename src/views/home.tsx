@@ -10,13 +10,31 @@ interface HomeProps {
 export const Home = (props: HomeProps) => {
     const { schedules, sort } = props;
 
-    // Simple sorting logic (can be moved to DB query)
+    // Simple sorting logic
     const sortedSchedules = [...schedules].sort((a, b) => {
         if (sort === 'duration') {
             return (a.duration || 0) - (b.duration || 0);
         }
         return new Date(a.start_time).getTime() - new Date(b.start_time).getTime();
     });
+
+    // Group by Date for SSR
+    const groupedSchedules: { date: string; items: Schedule[] }[] = [];
+    sortedSchedules.forEach(s => {
+        const dateObj = new Date(s.start_time);
+        const dateStr = dateObj.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', weekday: 'short' });
+
+        // Fix: Use Japanese date string or consistent key
+        let lastGroup = groupedSchedules[groupedSchedules.length - 1];
+        if (!lastGroup || lastGroup.date !== dateStr) {
+            lastGroup = { date: dateStr, items: [] };
+            groupedSchedules.push(lastGroup);
+        }
+        lastGroup.items.push(s);
+    });
+
+    // Determine initial last date for client-side hydration
+    const initialLastDate = groupedSchedules.length > 0 ? groupedSchedules[groupedSchedules.length - 1].date : "";
 
     return (
         <Layout title="Schedules">
@@ -47,25 +65,34 @@ export const Home = (props: HomeProps) => {
             </div>
 
             {/* Container for Client-Side Injection */}
-            <div id="schedule-container" class="card-grid">
-                {sortedSchedules.map((schedule) => (
-                    <div class="movie-card">
-                        <div class="movie-title">{schedule.movie_title}</div>
-                        <div class="movie-info">
-                            <p>🕒 {new Date(schedule.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} ~</p>
-                            <p>⏳ {schedule.duration ? `${schedule.duration} min` : 'N/A'}</p>
-                            <p>📍 Theater ID: {schedule.theater_id}</p> {/* Todo: Fetch real name via join in initial query */}
+            <div id="schedule-container" class="flex flex-col gap-8">
+                {groupedSchedules.map((group) => (
+                    <div class="date-section">
+                        <div class="sticky top-[80px] z-10 bg-slate-900/95 backdrop-blur-sm py-2 px-4 mb-4 border-l-4 border-violet-500 shadow-xl rounded-r-lg">
+                            <h3 class="text-lg font-bold text-violet-300">{group.date}</h3>
                         </div>
+                        <div class="card-grid">
+                            {group.items.map((schedule) => (
+                                <div class="movie-card">
+                                    <div class="movie-title">{schedule.movie_title}</div>
+                                    <div class="movie-info">
+                                        <p>🕒 {new Date(schedule.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} ~</p>
+                                        <p>⏳ {schedule.duration ? `${schedule.duration} min` : 'N/A'}</p>
+                                        <p>📍 {schedule.theater_name || `Theater ${schedule.theater_id}`}</p>
+                                    </div>
 
-                        <form action="/api/track" method="post" class="mt-auto">
-                            <input type="hidden" name="movie_title" value={schedule.movie_title} />
-                            <input type="hidden" name="theater_name" value={schedule.theater_name || `Theater ${schedule.theater_id}`} />
-                            <input type="hidden" name="start_time" value={schedule.start_time} />
-                            <input type="hidden" name="redirect_url" value={schedule.booking_url} />
-                            <button type="submit" class="action-btn w-full">
-                                Reserve & Track
-                            </button>
-                        </form>
+                                    <form action="/api/track" method="post" class="mt-auto">
+                                        <input type="hidden" name="movie_title" value={schedule.movie_title} />
+                                        <input type="hidden" name="theater_name" value={schedule.theater_name || `Theater ${schedule.theater_id}`} />
+                                        <input type="hidden" name="start_time" value={schedule.start_time} />
+                                        <input type="hidden" name="redirect_url" value={schedule.booking_url} />
+                                        <button type="submit" class="action-btn w-full">
+                                            Reserve & Track
+                                        </button>
+                                    </form>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>
@@ -98,17 +125,16 @@ export const Home = (props: HomeProps) => {
                 
                 let currentLat = null;
                 let currentLon = null;
-                let currentOffset = 0;
+                let currentOffset = 20; // Start after SSR items
                 let isLoading = false;
                 let hasMore = true;
                 let isGeoMode = false;
+                let lastRenderedDate = "${initialLastDate || ''}"; 
 
-                // Update radius label
                 radiusInput.addEventListener('input', (e) => {
                     radiusValue.textContent = e.target.value + ' km';
                 });
                 
-                // Radius change triggers reload if in geo mode
                 radiusInput.addEventListener('change', () => {
                    if (isGeoMode && currentLat) {
                        loadSchedules(true);
@@ -120,7 +146,6 @@ export const Home = (props: HomeProps) => {
                         alert("Geolocation is not supported by your browser");
                         return;
                     }
-
                     geoBtn.textContent = "Getting Location...";
                     geoBtn.disabled = true;
 
@@ -134,7 +159,6 @@ export const Home = (props: HomeProps) => {
                             geoBtn.classList.remove('bg-blue-600');
                             geoBtn.disabled = false;
                             
-                            // Clear current static list and load new data
                             loadSchedules(true);
                         },
                         (error) => {
@@ -150,7 +174,8 @@ export const Home = (props: HomeProps) => {
                     if (reset) {
                         currentOffset = 0;
                         hasMore = true;
-                        container.innerHTML = ''; // Clear server-rendered content
+                        container.innerHTML = ''; 
+                        lastRenderedDate = ""; 
                         if (emptyMsg) emptyMsg.style.display = 'none';
                     }
                     if (!hasMore) return;
@@ -159,7 +184,10 @@ export const Home = (props: HomeProps) => {
                     loading.classList.remove('hidden');
 
                     const radius = radiusInput.value;
-                    const url = \`/api/schedules?lat=\${currentLat}&lon=\${currentLon}&radius=\${radius}&offset=\${currentOffset}\`;
+                    let url = \`/api/schedules?radius=\${radius}&offset=\${currentOffset}\`;
+                    if (currentLat && currentLon) {
+                        url += \`&lat=\${currentLat}&lon=\${currentLon}\`;
+                    }
 
                     try {
                         const res = await fetch(url);
@@ -174,8 +202,44 @@ export const Home = (props: HomeProps) => {
                              container.innerHTML = '<div class="text-center py-10 text-gray-500 w-full col-span-full">No schedules found nearby. Try increasing the radius.</div>';
                         } else {
                             data.schedules.forEach(s => {
+                                const dateObj = new Date(s.start_time);
+                                const dateStr = dateObj.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', weekday: 'short' });
+                                
+                                let currentGrid;
+
+                                // If date changed or first item (in a non-reset scenario where lastRenderedDate is set), create new section
+                                if (dateStr !== lastRenderedDate) {
+                                    const section = document.createElement('div');
+                                    section.className = "date-section";
+                                    
+                                    // Sticky Header
+                                    section.innerHTML = \`
+                                        <div class="sticky top-[80px] z-10 bg-slate-900/95 backdrop-blur-sm py-2 px-4 mb-4 border-l-4 border-violet-500 shadow-xl rounded-r-lg">
+                                            <h3 class="text-lg font-bold text-violet-300">\${dateStr}</h3>
+                                        </div>
+                                        <div class="card-grid"></div>
+                                    \`;
+                                    container.appendChild(section);
+                                    
+                                    lastRenderedDate = dateStr;
+                                    currentGrid = section.querySelector('.card-grid');
+                                } else {
+                                    // Append to existing last section's grid
+                                    // Ensure we have a wrapper if initial SSR didn't have one (edge case) or just use last child
+                                    let lastSection = container.lastElementChild;
+                                    if (!lastSection || !lastSection.classList.contains('date-section')) {
+                                         // Should not happen with new structure, but safe fallback
+                                         const section = document.createElement('div');
+                                         section.className = "date-section";
+                                         section.innerHTML = '<div class="card-grid"></div>';
+                                         container.appendChild(section);
+                                         lastSection = section;
+                                    }
+                                    currentGrid = lastSection.querySelector('.card-grid');
+                                }
+
                                 const card = createMovieCard(s);
-                                container.appendChild(card);
+                                currentGrid.appendChild(card);
                             });
                         }
 
@@ -219,7 +283,7 @@ export const Home = (props: HomeProps) => {
 
                 // Infinite Scroll
                 window.addEventListener('scroll', () => {
-                    if (!isGeoMode) return;
+                    // Removed !isGeoMode check to allow infinite scroll on default view
                     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
                         loadSchedules();
                     }

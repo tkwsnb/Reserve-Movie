@@ -99,9 +99,9 @@ api.get("/schedules", (c) => {
     const offsetStr = c.req.query("offset");
     const limitStr = c.req.query("limit");
 
-    if (!latStr || !lonStr) {
-        return c.json({ error: "Latitude and Longitude are required" }, 400);
-    }
+    // if (!latStr || !lonStr) {
+    //     return c.json({ error: "Latitude and Longitude are required" }, 400);
+    // }
 
     const lat = parseFloat(latStr);
     const lon = parseFloat(lonStr);
@@ -111,37 +111,61 @@ api.get("/schedules", (c) => {
 
     // 1. Get all theaters
     const theaters = db.query("SELECT * FROM theaters").all() as any[];
+    let targetTheaterIds: number[] = [];
 
-    // 2. Filter theaters by distance
-    const nearbyTheaterIds = theaters.filter(t => {
-        if (!t.latitude || !t.longitude) return false;
-        const d = getDistanceFromLatLonInKm(lat, lon, t.latitude, t.longitude);
-        return d <= radius;
-    }).map(t => t.id);
+    if (latStr && lonStr) {
+        // Filter by distance if coordinates provided
+        targetTheaterIds = theaters.filter(t => {
+            if (!t.latitude || !t.longitude) return false;
+            const d = getDistanceFromLatLonInKm(lat, lon, t.latitude, t.longitude);
+            return d <= radius;
+        }).map(t => t.id);
 
-    if (nearbyTheaterIds.length === 0) {
-        return c.json({ schedules: [], hasMore: false });
+        if (targetTheaterIds.length === 0) {
+            return c.json({ schedules: [], hasMore: false });
+        }
+    } else {
+        // If no coordinates, include all theaters (or maybe limit to major ones? for now all)
+        // Check if user wants all. If so, passing empty list to IN requires handling.
+        targetTheaterIds = theaters.map(t => t.id);
     }
 
-    // 3. Query schedules for these theaters (Future only)
-    const idsString = nearbyTheaterIds.join(",");
+    // 3. Query schedules
+    // If targetTheaterIds is huge, IN (...) might be slow, but for now ok.
+    // Optimization: If no geo filter, just query schedules directly without IN clause if we want "all".
+
     const now = new Date().toISOString();
-
-    const query = db.query(`
-        SELECT s.*, t.name as theater_name, t.latitude, t.longitude 
-        FROM schedules s
-        JOIN theaters t ON s.theater_id = t.id
-        WHERE s.theater_id IN (${idsString})
-        AND s.start_time > $now
-        ORDER BY s.start_time ASC
-        LIMIT $limit OFFSET $offset
-    `);
-
-    const schedules = query.all({
+    let query;
+    let params: any = {
         $now: now,
         $limit: limit + 1,
         $offset: offset
-    }) as any[];
+    };
+
+    if (latStr && lonStr) {
+        const idsString = targetTheaterIds.join(",");
+        query = db.query(`
+            SELECT s.*, t.name as theater_name, t.latitude, t.longitude 
+            FROM schedules s
+            JOIN theaters t ON s.theater_id = t.id
+            WHERE s.theater_id IN (${idsString})
+            AND s.start_time > $now
+            ORDER BY s.start_time ASC
+            LIMIT $limit OFFSET $offset
+        `);
+    } else {
+        // No Geo Filter -> Global List
+        query = db.query(`
+            SELECT s.*, t.name as theater_name, t.latitude, t.longitude 
+            FROM schedules s
+            JOIN theaters t ON s.theater_id = t.id
+            WHERE s.start_time > $now
+            ORDER BY s.start_time ASC
+            LIMIT $limit OFFSET $offset
+        `);
+    }
+
+    const schedules = query.all(params) as any[];
 
     const hasMore = schedules.length > limit;
     if (hasMore) {

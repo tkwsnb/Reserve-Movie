@@ -12,7 +12,7 @@ views.get("/", (c) => {
     const sort = c.req.query("sort");
 
     // Fetch schedules (Limit to 20 for initial load performance)
-    const query = db.query("SELECT * FROM schedules LIMIT 20");
+    const query = db.query("SELECT * FROM schedules WHERE start_time > datetime('now') ORDER BY start_time ASC LIMIT 20");
     const schedules = query.all() as Schedule[];
 
     return c.html(<Home schedules={schedules} sort={sort} />);
